@@ -1,0 +1,9 @@
+name: Automated IOC enrichment & AI Analysis
+on: [push]
+jobs:
+  ioce_enrichment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run main
+        run: python main.py
