@@ -5,6 +5,7 @@ import re
 from urllib.parse import urlparse
 import base64
 import os
+import sys
 # from api_keys import virustotal_api_key
 # Replace with your own VirusTotal API key
 API_KEY = os.environ['VIRUSTOTAL_API_KEY']
@@ -193,9 +194,10 @@ def ioc_reputation_check(ioc):
 # ioc_reputation_check("0rlxki7g.bordbett10.com")
 # ioc_reputation_check("http://microsoft.windows.search/")
 # ioc_reputation_check("04dcae7c2f31870f4a59ed6faec513a5e252491d911ae9e62b9c3026ccf598cd")
+
 if __name__ == "__main__":
-    ioc = input("Enter IOC: ")
-    raw_results = ioc_reputation_check(ioc)
+    #ioc = input("Enter IOC: ")
+    raw_results = ioc_reputation_check(os.environ['IOC'])
     # ip = "183.96.224.3"  # Example IP address (Google DNS)
     # url = "http://www.ianfette.org/"  # Example URL
     # domain = "example.com"  # Example domain
@@ -207,3 +209,10 @@ if __name__ == "__main__":
 # raw_data = raw_attack_technique("T1087")
 # print(raw_data)
 
+# if __name__ == "__main__":
+#     if len(sys.argv) != 2:
+#         print("Usage: python your_script.py <IOC>")
+#         sys.exit(1)
+#
+#     ioc = sys.argv[1]
+#     ioc_reputation_check(ioc)
