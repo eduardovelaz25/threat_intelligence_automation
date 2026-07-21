@@ -1,6 +1,7 @@
 import requests
 import json
-from api_keys import abuseIPDB_api_key
+import os
+# from api_keys import abuseIPDB_api_key
 # Defining the api-endpoint
 url = 'https://api.abuseipdb.com/api/v2/reports'
 
@@ -11,7 +12,7 @@ url = 'https://api.abuseipdb.com/api/v2/reports'
 # ip_Addr = querystring['ipAddress']
 headers = {
     'Accept': 'application/json',
-    'Key': abuseIPDB_api_key
+    'Key': os.environ['ABUSEIPDB_API_KEY']
 }
 
 # response = requests.request(method='GET', url=url, headers=headers, params=querystring)

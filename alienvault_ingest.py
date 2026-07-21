@@ -1,8 +1,9 @@
 import requests
 import json
-from api_keys import alienvault_api_key
+import os
+# from api_keys import alienvault_api_key
 
-API_KEY = alienvault_api_key
+API_KEY = os.environ['ALIENVAULT_API_KEY']
 
 BASE_URL = "https://otx.alienvault.com/api/v1"
 

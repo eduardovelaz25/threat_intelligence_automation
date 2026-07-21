@@ -4,9 +4,10 @@ import ipaddress
 import re
 from urllib.parse import urlparse
 import base64
-from api_keys import virustotal_api_key
+import os
+# from api_keys import virustotal_api_key
 # Replace with your own VirusTotal API key
-API_KEY = virustotal_api_key
+API_KEY = os.environ['VIRUSTOTAL_API_KEY']
 BASE_URL = 'https://www.virustotal.com/api/v3/'
 
 # Headers for VirusTotal API authentication
