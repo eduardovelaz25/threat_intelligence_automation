@@ -1,0 +1,25 @@
+ame: Virustotal workflow
+on:
+  workflow_dispatch:
+    inputs:
+      ioc:
+        description: "IP, domain, URL, or hash to check"
+        required: true
+        type: string
+jobs:
+  virustotal_workflow:
+    runs-on: ubuntu-latest
+    env:
+      VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+      IOC: ${{ github.event.inputs.ioc }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.0"
+
+      - run: pip install requirements.py
+
+      - run: python virustotal_ingest.py
