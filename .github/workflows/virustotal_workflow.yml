@@ -10,7 +10,7 @@ jobs:
   virustotal_workflow:
     runs-on: ubuntu-latest
     env:
-      VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+      VIRUSTOTAL_API_KEY: ${{ vars.VIRUSTOTAL_API_KEY }}
       IOC: ${{ github.event.inputs.ioc }}
 
     steps:
