@@ -1,4 +1,4 @@
-ame: Virustotal workflow
+name: Virustotal workflow
 on:
   workflow_dispatch:
     inputs:
