@@ -4,7 +4,7 @@ import os
 # from api_keys import alienvault_api_key
 
 API_KEY = os.environ['ALIENVAULT_API_KEY']
-
+aws_key = "AIzaSyA1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q"
 BASE_URL = "https://otx.alienvault.com/api/v1"
 
 headers = {

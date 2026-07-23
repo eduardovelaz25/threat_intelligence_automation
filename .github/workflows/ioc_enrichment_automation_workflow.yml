@@ -12,4 +12,5 @@ jobs:
           GEMINI_API_KEY: ${{ vars.GEMINI_API_KEY }}
           HYRID_ANALYSIS_API_KEY: ${{ vars.HYRID_ANALYSIS_API_KEY }}
           VIRUSTOTAL_API_KEY: ${{ vars.VIRUSTOTAL_API_KEY }}
+          THREATFOX_ABUSE_API_KEY: ${{ vars.THREATFOX_ABUSE_API_KEY }}
         run: python main.py

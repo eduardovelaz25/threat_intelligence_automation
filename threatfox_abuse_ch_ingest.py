@@ -1,3 +1,5 @@
+import os
+
 import requests
 import json
 
@@ -13,7 +15,7 @@ def lookup_ioc(ioc):
     headers = {
         "Content-Type": "application/json",
         "User-Agent": "ThreatIntelAutomation/1.0",
-        "Auth-Key": "b0179b73df3bcb4d6dcb896519d1e254ccb3b320d43347d9"
+        "Auth-Key": os.environ['THREATFOX_ABUSE_API_KEY']
     }
 
     try:
