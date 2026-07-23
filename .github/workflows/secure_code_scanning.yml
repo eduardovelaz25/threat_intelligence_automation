@@ -1,0 +1,65 @@
+name: Secure code and dependency scanning workflow
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  secure_code_scanning:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install scanning tools and dependencies to be scanned
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit pip-audit semgrep
+          pip install -r requirements.txt
+
+      - name: Bandit scan
+        run: |
+          bandit -r .
+
+      - name: pip-audit dependencies scan
+        run: |
+          pip-audit
+
+      - name: Semgrep scan
+        run: |
+          semgrep scan --config auto .
+
+  codeql:
+      runs-on: ubuntu-latest
+
+      permissions:
+        security-events: write
+        actions: read
+        contents: read
+
+      strategy:
+        fail-fast: false
+        matrix:
+          language: [ 'python' ]
+
+      steps:
+        - uses: actions/checkout@v4
+
+        - uses: github/codeql-action/init@v3
+          with:
+            languages: ${{ matrix.language }}
+
+        - uses: github/codeql-action/autobuild@v3
+
+        - uses: github/codeql-action/analyze@v3

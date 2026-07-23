@@ -9,6 +9,7 @@ import sys
 # from api_keys import virustotal_api_key
 # Replace with your own VirusTotal API key
 API_KEY = os.environ['VIRUSTOTAL_API_KEY']
+test_key = "amNhbXBsZWtleTIwMjZzZWNyZXR0ZXN0aW5nc3RyaW5n"
 BASE_URL = 'https://www.virustotal.com/api/v3/'
 
 # Headers for VirusTotal API authentication
