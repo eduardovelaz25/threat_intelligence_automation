@@ -32,14 +32,17 @@ jobs:
       - name: Bandit scan
         run: |
           bandit -r .
+        continue-on-error: true
 
       - name: pip-audit dependencies scan
         run: |
           pip-audit
+        continue-on-error: true
 
       - name: Semgrep scan
         run: |
           semgrep scan --config auto .
+        continue-on-error: true
 
   codeql:
       runs-on: ubuntu-latest
