@@ -1,0 +1,32 @@
+name: Docker Security Scan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  docker-security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dockerfile Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
+      - name: Build Docker Image
+        run: docker build -t vt-ingest:${{ github.sha }} .
+
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: vt-ingest:${{ github.sha }}
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: 1
+          ignore-unfixed: true
