@@ -22,6 +22,21 @@ jobs:
       - name: Build Docker Image
         run: docker build -t vt-ingest:${{ github.sha }} .
 
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: vt-ingest:${{ github.sha }}
+          format: spdx-json
+          output-file: sbom.spdx.json
+
+      - name: Scan SBOM with Grype
+        uses: anchore/scan-action@v6
+        with:
+          image: vt-ingest:${{ github.sha }}
+          sbom: sbom.spdx.json
+          fail-build: true
+          severity-cutoff: high
+
       - name: Scan Docker Image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         with:
