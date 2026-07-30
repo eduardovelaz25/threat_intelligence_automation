@@ -32,7 +32,6 @@ jobs:
       - name: Scan SBOM with Grype
         uses: anchore/scan-action@v6
         with:
-          image: vt-ingest:${{ github.sha }}
           sbom: sbom.spdx.json
           fail-build: true
           severity-cutoff: high
