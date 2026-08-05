@@ -1,10 +1,20 @@
 name: Automated IOC enrichment & AI Analysis
 on: [push]
 jobs:
-  ioce_enrichment:
+  ioc_enrichment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies to be scanned
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Run main
         env:
           ABUSEIPDB_API_KEY: ${{ vars.ABUSEIPDB_API_KEY }}
