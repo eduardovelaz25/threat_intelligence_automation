@@ -1,3 +1,4 @@
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from virustotal_ingest import (
@@ -105,8 +106,9 @@ def run_lookup(name, func, ioc):
 
 def main():
 
-    ioc = input("IOC: ").strip()
-
+    # ioc = input("IOC: ").strip()
+    ioc = os.environ['IOC']
+    print(f"IOC received: {ioc}")
     ioc_type = get_ioc_type(ioc)
 
     if ioc_type == "unknown":

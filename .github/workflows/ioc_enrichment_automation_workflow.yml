@@ -1,5 +1,11 @@
 name: Automated IOC enrichment & AI Analysis
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      ioc:
+        description: "IP, domain, URL, or hash to check"
+        required: true
+        type: string
 jobs:
   ioc_enrichment:
     runs-on: ubuntu-latest
@@ -17,10 +23,11 @@ jobs:
 
       - name: Run main
         env:
+          IOC: ${{ github.event.inputs.ioc }}
           ABUSEIPDB_API_KEY: ${{ vars.ABUSEIPDB_API_KEY }}
           ALIENVAULT_API_KEY: ${{ vars.ALIENVAULT_API_KEY }}
           GEMINI_API_KEY: ${{ vars.GEMINI_API_KEY }}
-          HYRID_ANALYSIS_API_KEY: ${{ vars.HYRID_ANALYSIS_API_KEY }}
+          HYBRID_ANALYSIS_API_KEY: ${{ vars.HYBRID_ANALYSIS_API_KEY }}
           VIRUSTOTAL_API_KEY: ${{ vars.VIRUSTOTAL_API_KEY }}
           THREATFOX_ABUSE_API_KEY: ${{ vars.THREATFOX_ABUSE_API_KEY }}
         run: python main.py

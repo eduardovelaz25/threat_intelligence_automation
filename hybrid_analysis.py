@@ -3,7 +3,7 @@ import json
 import os
 # from api_keys import hyrid_analysis_api_key
 
-API_KEY = os.environ['HYRID_ANALYSIS_API_KEY']
+API_KEY = os.environ['HYBRID_ANALYSIS_API_KEY']
 
 BASE_URL = "https://hybrid-analysis.com/api/v2"
 
