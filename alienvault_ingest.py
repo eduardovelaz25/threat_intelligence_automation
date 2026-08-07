@@ -46,12 +46,10 @@ def get_domain_info(domain):
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(f"Error: {response.status_code}")
-        print(response.text)
-        return
+        return f"Error: {response.status_code}\n{response.text}"
 
     data = response.json()
-    print(json.dumps(data, indent=2))
+    return json.dumps(data, indent=2)
 
     # data = response.json()
     #
@@ -71,11 +69,10 @@ def get_url_info(url_to_check):
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(response.text)
-        return
+        return response.text
 
     data = response.json()
-    print(json.dumps(data, indent=2))
+    return json.dumps(data, indent=2)
 
 def get_hash_info(file_hash):
     url = f"{BASE_URL}/indicators/file/{file_hash}/general"
@@ -83,11 +80,10 @@ def get_hash_info(file_hash):
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(response.text)
-        return
+        return response.text
 
     data = response.json()
-    print(json.dumps(data, indent=2))
+    return json.dumps(data, indent=2)
 
 if __name__ == "__main__":
     #get_domain_info("4dgamers.com")
@@ -95,4 +91,3 @@ if __name__ == "__main__":
     # get_hash_info("aedf930f08b6f91f5762aaab686d143cd519ea6c0bf4c648337a98e56e14e8a8")
     # get_hash_info("028c9a1619f96dbfd29ca64199f4acde")
     get_ip_info("180.244.187.179")
-    print("hi")

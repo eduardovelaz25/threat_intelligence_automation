@@ -40,23 +40,25 @@ def lookup_ioc(ioc):
         return None
 
 
-def print_results(results):
+def format_results(results):
     if not results:
-        return
+        return ""
 
+    output = []
     for item in results:
-        print("=" * 60)
-        print(f"IOC:              {item.get('ioc')}")
-        print(f"IOC Type:         {item.get('ioc_type')}")
-        print(f"Malware Family:   {item.get('malware')}")
-        print(f"Threat Type:      {item.get('threat_type')}")
-        print(f"Confidence:       {item.get('confidence_level')}")
-        print(f"First Seen:       {item.get('first_seen')}")
-        print(f"Last Seen:        {item.get('last_seen')}")
-        print(f"Reporter:         {item.get('reporter')}")
-        print(f"Tags:             {item.get('tags', [])}")
-        print(f"Reference:        {item.get('reference')}")
-        print("=" * 60)
+        output.append("=" * 60)
+        output.append(f"IOC:              {item.get('ioc')}")
+        output.append(f"IOC Type:         {item.get('ioc_type')}")
+        output.append(f"Malware Family:   {item.get('malware')}")
+        output.append(f"Threat Type:      {item.get('threat_type')}")
+        output.append(f"Confidence:       {item.get('confidence_level')}")
+        output.append(f"First Seen:       {item.get('first_seen')}")
+        output.append(f"Last Seen:        {item.get('last_seen')}")
+        output.append(f"Reporter:         {item.get('reporter')}")
+        output.append(f"Tags:             {item.get('tags', [])}")
+        output.append(f"Reference:        {item.get('reference')}")
+        output.append("=" * 60)
+    return "\n".join(output)
 # def parse_results(results):
 #     if not results:
 #         return []
@@ -91,4 +93,6 @@ def print_results(results):
 if __name__ == "__main__":
     ioc = input("Enter IOC: ")
     results = lookup_ioc(ioc)
-    print_results(results)
+    output = format_results(results)
+    if output:
+        print(output)
