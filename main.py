@@ -13,7 +13,7 @@ from abuseIPDB_ingest import print_results as abuseipdb_lookup
 
 from threatfox_abuse_ch_ingest import (
     lookup_ioc as threatfox_lookup,
-    print_results as threatfox_print,
+    format_results as threatfox_format,
 )
 
 from alienvault_ingest import (
@@ -84,7 +84,7 @@ def run_lookup(name, func, ioc):
         # ThreatFox returns raw data
         if name == "ThreatFox":
             if result:
-                threatfox_print(result)
+                print(threatfox_format(result))
             else:
                 print("No results found.")
 

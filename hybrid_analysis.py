@@ -27,13 +27,12 @@ def ha_hash_lookup(file_hash):
     )
 
     if response.status_code != 200:
-        print(response.text)
-        return None
+        return response.text
 
     data = response.json()
-    print(json.dumps(data, indent=2))
     if not data:
         return None
+    return data
 
     # sample = data[0]
     #
@@ -83,11 +82,7 @@ def ha_ip_lookup(ip):
         timeout=30
     )
 
-    json_format = response.json()
-    print(json.dumps(json_format, indent=2))
-    # print(response.text)
-
-    # return response.json()
+    return response.json()
 def ha_domain_lookup(domain):
     url = f"{BASE_URL}/search/terms"
 
@@ -121,12 +116,6 @@ def ha_filename_lookup(filename):
         timeout=30
     )
 
-    if response.status_code != 200:
-        # print(response.text)
-        json_format = response.json()
-        print(json.dumps(json_format, indent=2))
-        return None
-
     return response.json()
 def ha_url_lookup(url_ioc):
     url = f"{BASE_URL}/search/terms"
@@ -142,10 +131,7 @@ def ha_url_lookup(url_ioc):
         }
     )
 
-    #print(response.status_code)
-    # print(response.text)
-    json_format = response.json()
-    print(json.dumps(json_format, indent=2))
+    return response.json()
 def hybrid_lookup(ioc, ioc_type):
 
     if ioc_type == "hash":
