@@ -90,4 +90,5 @@ if __name__ == "__main__":
     #get_url_info("lifehealthsanfrancisco2015.com")
     # get_hash_info("aedf930f08b6f91f5762aaab686d143cd519ea6c0bf4c648337a98e56e14e8a8")
     # get_hash_info("028c9a1619f96dbfd29ca64199f4acde")
-    get_ip_info("180.244.187.179")
+    #get_ip_info("180.244.187.179")
+    print(get_ip_info("183.96.224.3"))

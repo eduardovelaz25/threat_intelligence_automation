@@ -35,4 +35,4 @@ def print_results(ip):
 
 
 if __name__ == "__main__":
-    print_results("180.244.187.179")
+    print(print_results("180.244.187.179"))

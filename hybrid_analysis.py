@@ -150,6 +150,6 @@ def hybrid_lookup(ioc, ioc_type):
         }
 
 if __name__ == "__main__":
-    #hybrid_lookup("04dcae7c2f31870f4a59ed6faec513a5e252491d911ae9e62b9c3026ccf598cd", "hash")
-    hybrid_lookup("http://222.141.81.195:50923/bin.sh", "url")
-    hybrid_lookup("42.225.228.53", "ip")
+    # #hybrid_lookup("04dcae7c2f31870f4a59ed6faec513a5e252491d911ae9e62b9c3026ccf598cd", "hash")
+    # hybrid_lookup("http://222.141.81.195:50923/bin.sh", "url")
+    print(hybrid_lookup("42.225.228.53", "ip"))

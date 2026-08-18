@@ -1,5 +1,5 @@
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
+# from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from virustotal_ingest import (
     get_ioc_type,
@@ -121,18 +121,24 @@ def main():
 
     all_results = {}
 
-    with ThreadPoolExecutor(max_workers=len(lookups)) as executor:
+    # with ThreadPoolExecutor(max_workers=len(lookups)) as executor:
+    #
+    #     futures = [
+    #         executor.submit(run_lookup, name, func, ioc)
+    #         for name, func in lookups
+    #     ]
+    #
+    #     for future in as_completed(futures):
+    #         name, result = future.result()
+    #
+    #         if result not in (None, "", [], {}):
+    #             all_results[name] = result
+    for name, func in lookups:
+        name, result = run_lookup(name, func, ioc)
 
-        futures = [
-            executor.submit(run_lookup, name, func, ioc)
-            for name, func in lookups
-        ]
+        if result not in (None, "", [], {}):
+            all_results[name] = result
 
-        for future in as_completed(futures):
-            name, result = future.result()
-
-            if result not in (None, "", [], {}):
-                all_results[name] = result
 
     print("\n" + "=" * 70)
     print(" Gemini Threat Intelligence Assessment ")
