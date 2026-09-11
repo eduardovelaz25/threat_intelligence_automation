@@ -26,17 +26,46 @@ def get_url_reputation(url):
     if response.status_code == 200:
         data = response.json()
         if 'data' in data:
-            print("Threat Intel Report for", url)
-            attributes = data['data']['attributes']
-            print(f"Reputation for URL {url}:")
-            # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
-            print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
-            print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
-            print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
+            attributes = data['data'].get('attributes', {})
+            stats = attributes.get('last_analysis_stats', {})
+            return {
+                "report": f"Threat Intel Report for {url}",
+                "ioc": url,
+                "type": "url",
+                "reputation": {
+                    "malicious": stats.get("malicious"),
+                    "suspicious": stats.get("suspicious"),
+                    "undetected": stats.get("undetected"),
+                    "harmless": stats.get("harmless"),
+                    "timeout": stats.get("timeout"),
+                },
+                "raw": data,
+            }
         else:
-            print(f"Error fetching URL reputation for {url}")
+            return {"error": "No 'data' in response", "response": data}
     else:
-        print(f"Error fetching URL: {response.status_code}")
+        return {
+            "error": "Error fetching URL",
+            "status_code": response.status_code,
+            "response": response.text,
+        }
+
+
+    #####Block to print data
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     if 'data' in data:
+    #         print("Threat Intel Report for", url)
+    #         attributes = data['data']['attributes']
+    #         print(f"Reputation for URL {url}:")
+    #         # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
+    #         print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
+    #         print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
+    #         print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
+    #     else:
+    #         print(f"Error fetching URL reputation for {url}")
+    # else:
+    #     print(f"Error fetching URL: {response.status_code}")
 
 
 # Function to retrieve the reputation for an IP address
@@ -45,31 +74,60 @@ def get_ip_reputation(ip):
 
     if response.status_code == 200:
         data = response.json()
-        # print(json.dumps(data, indent=2))
-        attributes = data['data']['attributes']
-        # print(attributes['last_analysis_results'])
-        engine_results = attributes['last_analysis_results']
-        engine_results_items = engine_results.items()
-        # print(engine_results_items)
-        # for key, pair in engine_results_items:
-        #     print(f"Engine name: {key}")
-        #     print(f"Method: {pair['method']}")
-        #     print(f"Category: {pair['category']}")
-        #     print(f"Result: {pair['result']}")
-        #     print('\n\n')
         if 'data' in data:
-            print("Threat Intel Report for", ip)
-            # attributes = data['data']['attributes']
-            print(f"Reputation for IP {ip}:")
-            # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
-            print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
-            print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
-            print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
-
+            attributes = data['data'].get('attributes', {})
+            stats = attributes.get('last_analysis_stats', {})
+            return {
+                "report": f"Threat Intel Report for {ip}",
+                "ioc": ip,
+                "type": "ip",
+                "reputation": {
+                    "malicious": stats.get("malicious"),
+                    "suspicious": stats.get("suspicious"),
+                    "undetected": stats.get("undetected"),
+                    "harmless": stats.get("harmless"),
+                    "timeout": stats.get("timeout"),
+                },
+                "last_analysis_results": attributes.get("last_analysis_results"),
+                "raw": data,
+            }
         else:
-            print(f"Error fetching IP reputation for {ip}")
+            return {"error": "No 'data' in response", "response": data}
     else:
-        print(f"Error fetching IP: {response.status_code}")
+        return {
+            "error": "Error fetching IP",
+            "status_code": response.status_code,
+            "response": response.text,
+        }
+
+    # Code block to print data
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     # print(json.dumps(data, indent=2))
+    #     attributes = data['data']['attributes']
+    #     # print(attributes['last_analysis_results'])
+    #     engine_results = attributes['last_analysis_results']
+    #     engine_results_items = engine_results.items()
+    #     # print(engine_results_items)
+    #     # for key, pair in engine_results_items:
+    #     #     print(f"Engine name: {key}")
+    #     #     print(f"Method: {pair['method']}")
+    #     #     print(f"Category: {pair['category']}")
+    #     #     print(f"Result: {pair['result']}")
+    #     #     print('\n\n')
+    #     if 'data' in data:
+    #         print("Threat Intel Report for", ip)
+    #         # attributes = data['data']['attributes']
+    #         print(f"Reputation for IP {ip}:")
+    #         # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
+    #         print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
+    #         print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
+    #         print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
+    #
+    #     else:
+    #         print(f"Error fetching IP reputation for {ip}")
+    # else:
+    #     print(f"Error fetching IP: {response.status_code}")
 
 
 # Function to retrieve the reputation for a domain
@@ -79,51 +137,119 @@ def get_domain_reputation(domain):
     if response.status_code == 200:
         data = response.json()
         if 'data' in data:
-            print("Threat Intel Report for", domain)
-            attributes = data['data']['attributes']
-            print(f"Reputation for Domain {domain}:")
-            # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
-            print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
-            print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
-            print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
+            attributes = data['data'].get('attributes', {})
+            stats = attributes.get('last_analysis_stats', {})
+            return {
+                "report": f"Threat Intel Report for {domain}",
+                "ioc": domain,
+                "type": "domain",
+                "reputation": {
+                    "malicious": stats.get("malicious"),
+                    "suspicious": stats.get("suspicious"),
+                    "undetected": stats.get("undetected"),
+                    "harmless": stats.get("harmless"),
+                    "timeout": stats.get("timeout"),
+                },
+                "raw": data,
+            }
         else:
-            print(f"Error fetching Domain reputation for {domain}")
+            return {"error": "No 'data' in response", "response": data}
     else:
-        print(f"Error fetching Domain: {response.status_code}")
+        return {
+            "error": "Error fetching Domain",
+            "status_code": response.status_code,
+            "response": response.text,
+        }
+
+
+    # Code block to print data
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     if 'data' in data:
+    #         print("Threat Intel Report for", domain)
+    #         attributes = data['data']['attributes']
+    #         print(f"Reputation for Domain {domain}:")
+    #         # print(f"    Total Scans: {attributes['last_analysis_stats']['total']}")
+    #         print(f"    Malicious: {attributes['last_analysis_stats']['malicious']}")
+    #         print(f"    Suspicious: {attributes['last_analysis_stats']['suspicious']}")
+    #         print(f"    Undetected: {attributes['last_analysis_stats']['undetected']}")
+    #     else:
+    #         print(f"Error fetching Domain reputation for {domain}")
+    # else:
+    #     print(f"Error fetching Domain: {response.status_code}")
 
 def get_hash_reputation(hash):
     response = requests.get(BASE_URL + f'files/{hash}', headers=headers)
     # print(response)
+
     if response.status_code == 200:
         data = response.json()
         if 'data' in data:
-            # print(json.dumps(data, indent=2))
-            print("Threat Intel Report for", hash)
-            attributes = data['data']['attributes']
-            print(f"    Reputation for hash:{attributes['reputation']}")
-            # print(f"    Names for hash: {attributes['names']}")
-            # if attributes['popular_threat_classification']['suggested_threat_label']:
-            #     print(f"    Suggested Threat Label: {attributes['popular_threat_classification']['suggested_threat_label']}")
-            # crowdsource_yara = attributes['crowdsourced_yara_results']
-            # print(f"    Crowdsourced Yara Results:{json.dumps(crowdsource_yara, indent=2)}")
+            attributes = data['data'].get('attributes', {})
+            return {
+                "report": f"Threat Intel Report for {hash}",
+                "ioc": hash,
+                "type": "hash",
+                "reputation": attributes.get("reputation"),
+                "names": attributes.get("names"),
+                "popular_threat_classification": attributes.get("popular_threat_classification"),
+                "raw": data,
+            }
         else:
-            print(f"Error fetching hash reputation for {domain}")
+            return {"error": "No 'data' in response", "response": data}
     else:
-        print(f"Error fetching hash: {response.status_code}")
+        return {
+            "error": "Error fetching hash",
+            "status_code": response.status_code,
+            "response": response.text,
+        }
+
+    # code block to print data
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     if 'data' in data:
+    #         # print(json.dumps(data, indent=2))
+    #         print("Threat Intel Report for", hash)
+    #         attributes = data['data']['attributes']
+    #         print(f"    Reputation for hash:{attributes['reputation']}")
+    #         # print(f"    Names for hash: {attributes['names']}")
+    #         # if attributes['popular_threat_classification']['suggested_threat_label']:
+    #         #     print(f"    Suggested Threat Label: {attributes['popular_threat_classification']['suggested_threat_label']}")
+    #         # crowdsource_yara = attributes['crowdsourced_yara_results']
+    #         # print(f"    Crowdsourced Yara Results:{json.dumps(crowdsource_yara, indent=2)}")
+    #     else:
+    #         print(f"Error fetching hash reputation for {hash}")
+    # else:
+    #     print(f"Error fetching hash: {response.status_code}")
+
+
 def get_attack_technique(attack_id):
     response = requests.get(BASE_URL + f'attack_techniques/{attack_id}', headers=headers)
+
+    if response.status_code != 200:
+        return {
+            "error": "Error fetching attack technique",
+            "status_code": response.status_code,
+            "response": response.text,
+        }
     attack_technique_data = response.json()
-    print(attack_technique_data)
-    attack_attr = attack_technique_data['data']['attributes']
-    #print(json.dumps(attack_technique_data, indent=2))
-    print(f"Attack Technique ID: {attack_technique_data['data']['id']}")
-    print(f"\nAttack Technique Name: {attack_attr['name']}")
-    print(f"\nTechnique Summary:\n{attack_attr['description']}\n")
-    operating_systems = attack_attr['info']['x_mitre_platforms']
-    print(f"Systems that an adversary can be operating within:")
-    for i in operating_systems:
-        print("\t", i)
-    print(f"\nFor more information please visit:{attack_technique_data['data']['links']['self']}")
+    # Return structured data (consumers can format it as they wish)
+    return attack_technique_data
+
+
+    # code block to print data
+    # attack_technique_data = response.json()
+    # print(attack_technique_data)
+    # attack_attr = attack_technique_data['data']['attributes']
+    # #print(json.dumps(attack_technique_data, indent=2))
+    # print(f"Attack Technique ID: {attack_technique_data['data']['id']}")
+    # print(f"\nAttack Technique Name: {attack_attr['name']}")
+    # print(f"\nTechnique Summary:\n{attack_attr['description']}\n")
+    # operating_systems = attack_attr['info']['x_mitre_platforms']
+    # print(f"Systems that an adversary can be operating within:")
+    # for i in operating_systems:
+    #     print("\t", i)
+    # print(f"\nFor more information please visit:{attack_technique_data['data']['links']['self']}")
 
 def raw_attack_technique(attack_id):
     response = requests.get(BASE_URL + f'attack_techniques/{attack_id}', headers=headers)
@@ -174,7 +300,8 @@ def get_ioc_type(ioc):
 
 def ioc_reputation_check(ioc):
     ioc_type = get_ioc_type(ioc)
-    print("The IOC type for '"+ioc+"' is:",ioc_type)
+    # print("The IOC type for '"+ioc+"' is:",ioc_type)
+    #return f"The IOC type for '{ioc}' is: {ioc_type}"
     if ioc_type == "ip":
         return get_ip_reputation(ioc)
 
@@ -197,7 +324,11 @@ def ioc_reputation_check(ioc):
 
 if __name__ == "__main__":
     #ioc = input("Enter IOC: ")
-    raw_results = ioc_reputation_check(os.environ['IOC'])
+    # raw_results = ioc_reputation_check(os.environ['IOC'])
+    ioc = os.environ.get("IOC", "183.96.224.3")
+    raw_results = ioc_reputation_check("183.96.224.3")
+    print(raw_results)
+    # raw_results = ioc_reputation_check("183.96.224.3")
     # ip = "183.96.224.3"  # Example IP address (Google DNS)
     # url = "http://www.ianfette.org/"  # Example URL
     # domain = "example.com"  # Example domain

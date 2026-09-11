@@ -2,3 +2,6 @@ requests~=2.32.5
 fastapi~=0.100.0
 uvicorn[standard]>=0.20.0
 google-generativeai>=0.8.6
+google-genai
+mcp[cli]>=2.1.1
+python-dotenv
